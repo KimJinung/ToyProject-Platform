@@ -2,18 +2,20 @@ spring:
   profiles:
     active: local
   datasource:
-    url: jdbc:mysql://localhost:3306
+    url: jdbc:mysql://localhost:3306/platform
     username: root
     password: example
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     show-sql: true
+    hibernate:
+      ddl-auto: create-drop
 ---
-spring:
-  profiles:
-    active: dev
-  datasource:
-    url: jdbc:mysql://localhost:3306
-    username: root
-    password: example
-    driver-class-name: com.mysql.cj.jdbc.Driver
+#spring:
+#  profiles:
+#    active: dev
+#  datasource:
+#    url: jdbc:mysql://localhost:3306/platform
+#    username: root
+#    password: example
+#    driver-class-name: com.mysql.cj.jdbc.Driver
