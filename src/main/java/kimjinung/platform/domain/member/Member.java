@@ -16,11 +16,16 @@ public class Member {
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "member_id")
     private Long id;
+
     private String userId;
+
     private String password;
+
     private LocalDateTime joinDate;
+
     @Embedded
     private Address address;
+
     @OneToMany(mappedBy = "member")
     private List<Order> orderList;
 }

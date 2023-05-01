@@ -16,7 +16,9 @@ public class Item {
     @Id @GeneratedValue(strategy = AUTO)
     @Column(name = "item_id")
     private Long id;
+
     private String name;
+
     private int stockQuantity;
 
     @OneToMany(mappedBy = "item")

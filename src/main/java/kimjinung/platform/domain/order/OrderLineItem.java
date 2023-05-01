@@ -15,12 +15,16 @@ public class OrderLineItem {
     @Id @GeneratedValue
     @Column(name = "order_item_id")
     private Long id;
+
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "item_id")
     private Item item;
+
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "order_id")
     private Order order;
+
     private int quantity;
+
     private int orderPrice;
 }
