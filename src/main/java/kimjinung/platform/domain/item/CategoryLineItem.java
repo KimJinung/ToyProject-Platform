@@ -23,4 +23,6 @@ public class CategoryLineItem {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "category_id")
     private Category category;
+
+    // TODO Add child method
 }
