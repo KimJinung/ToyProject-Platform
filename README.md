@@ -7,16 +7,11 @@
 ## Goal
 이커머스 플랫폼을 제로 베이스부터 구축 해본다. 
 
-아키텍처를 먼저 생각하는 것이 아니라 비지니스를 위한 기능을 먼저 생각한다. 
-기능이 점차 추가됨에 따라 리팩터링한다.
+# UML
+![ToyProject_UML.drawio.png](..%2F..%2FDownloads%2FToyProject_UML.drawio.png)
 
-
-# 첫 번째 목표
-1. 회원 가입을 할 수 있다.
-2. 로그인을 할 수 있다.
-3. 상품을 등록 및 취소할 수 있다.
-4. 상품을 주문할 수 있다.
-![img_3.png](img_3.png)
+# ERD
+![ToyProject_ERD.drawio.png](..%2F..%2FDownloads%2FToyProject_ERD.drawio.png)
 
 
 ---
