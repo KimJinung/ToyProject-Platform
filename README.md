@@ -7,10 +7,13 @@
 ## Goal
 이커머스 플랫폼을 제로 베이스부터 구축 해본다. 
 
+
 # UML
 ![ToyProject_UML.png](img%2FToyProject_UML.png)
 # ERD
 ![ToyProject_ERD.png](img%2FToyProject_ERD.png)
+ng)
+
 
 
 ---
