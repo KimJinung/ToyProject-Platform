@@ -12,7 +12,6 @@
 ![ToyProject_UML.png](img%2FToyProject_UML.png)
 # ERD
 ![ToyProject_ERD.png](img%2FToyProject_ERD.png)
-ng)
 
 
 

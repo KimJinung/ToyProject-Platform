@@ -1,21 +1,19 @@
 package kimjinung.platform.domain.item;
 
 
+import kimjinung.platform.domain.base.BaseEntity;
 import lombok.Getter;
 
 import javax.persistence.*;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static javax.persistence.FetchType.LAZY;
 
 
 @Getter
 @Entity
-public class CategoryLineItem {
+public class CategoryItem extends BaseEntity {
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "category_line_item_id")
+    @Column(name = "category_item_id")
     private Long id;
 
     @ManyToOne(fetch = LAZY)
