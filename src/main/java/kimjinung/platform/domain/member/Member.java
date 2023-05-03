@@ -4,11 +4,12 @@ import kimjinung.platform.domain.base.BaseEntity;
 import kimjinung.platform.domain.common.Address;
 import kimjinung.platform.domain.order.Order;
 import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;
 
-@Getter
+@Getter @Setter
 @Entity
 public class Member extends BaseEntity {
 
