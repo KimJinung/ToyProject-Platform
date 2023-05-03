@@ -1,15 +1,13 @@
 package kimjinung.platform.domain.order;
 
 
-import kimjinung.platform.domain.delivery.Delivery;
+import kimjinung.platform.domain.base.BaseEntity;
+import kimjinung.platform.domain.shipment.Shipment;
 import kimjinung.platform.domain.member.Member;
 import lombok.Getter;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import static javax.persistence.FetchType.LAZY;
@@ -17,7 +15,7 @@ import static javax.persistence.FetchType.LAZY;
 @Getter
 @Table(name = "orders")
 @Entity
-public class Order {
+public class Order extends BaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "order_id")
@@ -28,13 +26,12 @@ public class Order {
     private Member member;
 
     @OneToMany(mappedBy = "order")
-    private List<OrderLineItem> orderItems = new ArrayList<>();
-
-    private LocalDateTime orderDate;
+    private List<OrderItem> orderItems = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
 
     @OneToOne(fetch = LAZY)
-    private Delivery delivery;
+    @JoinColumn(name = "shipment_id", unique = true)
+    private Shipment shipment;
 }

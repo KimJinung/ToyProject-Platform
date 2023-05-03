@@ -1,6 +1,7 @@
 package kimjinung.platform.domain.item;
 
 
+import kimjinung.platform.domain.base.BaseEntity;
 import lombok.Getter;
 
 import javax.persistence.*;
@@ -11,7 +12,7 @@ import static javax.persistence.GenerationType.AUTO;
 
 @Getter
 @Entity
-public class Item {
+public class Item extends BaseEntity {
 
     @Id @GeneratedValue(strategy = AUTO)
     @Column(name = "item_id")
@@ -19,8 +20,10 @@ public class Item {
 
     private String name;
 
-    private int stockQuantity;
+    private Long price;
+
+    private Integer stockQuantity;
 
     @OneToMany(mappedBy = "item")
-    private List<CategoryLineItem> categories = new ArrayList<>();
+    private List<CategoryItem> categories = new ArrayList<>();
 }

@@ -1,6 +1,7 @@
 package kimjinung.platform.domain.order;
 
 
+import kimjinung.platform.domain.base.BaseEntity;
 import kimjinung.platform.domain.item.Item;
 import lombok.Getter;
 
@@ -10,7 +11,7 @@ import static javax.persistence.FetchType.*;
 
 @Getter
 @Entity
-public class OrderLineItem {
+public class OrderItem extends BaseEntity {
 
     @Id @GeneratedValue
     @Column(name = "order_item_id")
@@ -24,7 +25,7 @@ public class OrderLineItem {
     @JoinColumn(name = "order_id")
     private Order order;
 
-    private int quantity;
+    private Integer quantity;
 
-    private int orderPrice;
+    private Long orderPrice;
 }

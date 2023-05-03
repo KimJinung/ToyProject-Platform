@@ -1,6 +1,7 @@
 package kimjinung.platform.domain.member;
 
 //import kimjinung.platform.domain.order.Order;
+import kimjinung.platform.domain.base.BaseEntity;
 import kimjinung.platform.domain.common.Address;
 import kimjinung.platform.domain.order.Order;
 import lombok.Getter;
@@ -11,21 +12,19 @@ import java.util.List;
 
 @Getter
 @Entity
-public class Member {
+public class Member extends BaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "member_id")
     private Long id;
 
-    private String userId;
+    private String name;
 
     private String password;
-
-    private LocalDateTime joinDate;
 
     @Embedded
     private Address address;
 
     @OneToMany(mappedBy = "member")
-    private List<Order> orderList;
+    private List<Order> orderHistory;
 }
