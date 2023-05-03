@@ -2,29 +2,49 @@ package kimjinung.platform.usecase.item;
 
 
 import kimjinung.platform.domain.item.Item;
+import kimjinung.platform.exception.NotEnoughStockEx;
+import kimjinung.platform.infrastructure.repository.item.ItemRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class ItemServiceImpl implements ItemService {
+
+    private final ItemRepository itemRepository;
+
     @Override
-    public boolean register(Item item) {
-        return false;
+    public void register(Item item) {
+        itemRepository.save(item);
+
+    }
+
+
+    @Override
+    public void remove(Long id) {
+        itemRepository.delete(id);
     }
 
     @Override
-    public Long getIdByName(String name) {
-        return null;
+    public boolean addStock(Long id, int quantity) {
+        Item targetItem = itemRepository.findById(id);
+
+        targetItem.addStock(quantity);
+
+        return true;
     }
 
     @Override
-    public boolean remove(Long id) {
-        return false;
-    }
+    public boolean reduceStock(Long id, int quantity) throws NotEnoughStockEx {
+        Item targetItem = itemRepository.findById(id);
 
-    @Override
-    public List<Item> searchByKeyword(String keyword) {
-        return null;
+        try {
+            targetItem.reduceStock(quantity);
+        } catch (NotEnoughStockEx e) {
+            return false;
+        }
+
+        return true;
     }
 }

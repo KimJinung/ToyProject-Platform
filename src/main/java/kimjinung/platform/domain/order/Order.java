@@ -2,12 +2,15 @@ package kimjinung.platform.domain.order;
 
 
 import kimjinung.platform.domain.base.BaseEntity;
+import kimjinung.platform.domain.item.Item;
 import kimjinung.platform.domain.member.Member;
 import kimjinung.platform.domain.shipment.Shipment;
 import lombok.Getter;
 
 import javax.persistence.*;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static javax.persistence.FetchType.LAZY;
@@ -34,4 +37,18 @@ public class Order extends BaseEntity {
     @OneToOne(fetch = LAZY)
     @JoinColumn(name = "shipment_id", unique = true)
     private Shipment shipment;
+
+
+    public Order() {
+
+    }
+
+    public Order(Member member, OrderItem... orderItems) {
+        this.member = member;
+        this.orderItems = Arrays.asList(orderItems);
+    }
+
+//    private Shipment generateShipmentInfo(Member member, Item... items) {
+//
+//    }
 }

@@ -6,11 +6,11 @@ import java.util.List;
 
 public interface ItemService {
 
-    boolean register(Item item);
+    void register(Item item);
 
-    boolean remove(Long id);
+    void remove(Long id);
 
-    Long getIdByName(String name);
+    boolean addStock(Long id, int quantity);
 
-    List<Item> searchByKeyword(String keyword);
+    boolean reduceStock(Long id, int quantity);
 }

@@ -19,6 +19,17 @@ public class ItemRepositoryImpl implements ItemRepository{
     }
 
     @Override
+    public boolean delete(Long id) {
+        em.remove(id);
+        em.flush();
+        em.clear();
+
+        Item result = findById(id);
+
+        return result == null;
+    }
+
+    @Override
     public Item findById(Long id) {
         return em.find(Item.class, id);
     }

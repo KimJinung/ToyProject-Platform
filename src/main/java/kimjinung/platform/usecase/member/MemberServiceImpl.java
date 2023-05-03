@@ -1,17 +1,23 @@
 package kimjinung.platform.usecase.member;
 
 import kimjinung.platform.domain.member.Member;
+import kimjinung.platform.infrastructure.repository.member.MemberRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 @Service
+@RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService{
-    @Override
-    public boolean enroll(Member member) {
-        return false;
-    }
+
+    private final MemberRepository memberRepository;
 
     @Override
-    public boolean withdrawal(Member member) {
-        return false;
+    public void enroll(Member member) {
+        memberRepository.save(member);
     }
+
 }
