@@ -1,13 +1,11 @@
 package kimjinung.platform.domain.member;
 
-//import kimjinung.platform.domain.order.Order;
 import kimjinung.platform.domain.base.BaseEntity;
 import kimjinung.platform.domain.common.Address;
 import kimjinung.platform.domain.order.Order;
 import lombok.Getter;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter

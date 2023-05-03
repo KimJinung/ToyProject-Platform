@@ -2,8 +2,8 @@ package kimjinung.platform.domain.order;
 
 
 import kimjinung.platform.domain.base.BaseEntity;
-import kimjinung.platform.domain.shipment.Shipment;
 import kimjinung.platform.domain.member.Member;
+import kimjinung.platform.domain.shipment.Shipment;
 import lombok.Getter;
 
 import javax.persistence.*;
