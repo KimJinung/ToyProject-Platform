@@ -25,4 +25,14 @@ public class Shipment extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     private ShipmentStatus status;
+
+    public Shipment() {
+
+    }
+
+    public Shipment(Order order, Address address) {
+        this.order = order;
+        this.address = address;
+        this.status = ShipmentStatus.PENDING;
+    }
 }

@@ -3,7 +3,6 @@ package kimjinung.platform.domain.item;
 
 import kimjinung.platform.domain.base.BaseEntity;
 import lombok.Getter;
-import org.springframework.data.util.Lazy;
 
 import javax.persistence.*;
 import java.util.ArrayList;

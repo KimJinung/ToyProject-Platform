@@ -2,6 +2,7 @@ package kimjinung.platform.domain.order;
 
 
 import kimjinung.platform.domain.base.BaseEntity;
+import kimjinung.platform.domain.common.Address;
 import kimjinung.platform.domain.item.Item;
 import kimjinung.platform.domain.member.Member;
 import kimjinung.platform.domain.shipment.Shipment;
@@ -43,12 +44,14 @@ public class Order extends BaseEntity {
 
     }
 
-    public Order(Member member, OrderItem... orderItems) {
+    public Order(Member member, OrderItem... orderItems) { // 이 orderItems 넘기는 게 서비스 레이어에서 해주어야 할까.. 아닐텐데
         this.member = member;
         this.orderItems = Arrays.asList(orderItems);
+        this.shipment = generateShipmentInfo(this, member.getAddress());
     }
 
-//    private Shipment generateShipmentInfo(Member member, Item... items) {
-//
-//    }
+
+    private Shipment generateShipmentInfo(Order order, Address address) {
+        return new Shipment(order, address);
+    }
 }
