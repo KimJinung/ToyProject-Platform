@@ -6,7 +6,6 @@ import lombok.Getter;
 public class ItemDTO {
 
     private Long id;
-
     private Integer count;
 
 }

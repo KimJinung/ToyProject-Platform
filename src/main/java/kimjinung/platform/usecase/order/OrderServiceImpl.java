@@ -26,12 +26,6 @@ public class OrderServiceImpl implements OrderService{
 
     @Override
     public void order(OrderInfoDTO orderInfo) {
-        /*
-        DTO로 필요한 인자를 넘겨 받고
-        domain 모델을 이용해서 비지니스 로직을 수행한다.
-        결과를 리포지토리 레이어를 이용해서 저장한다.
-         */
-
         Long memberId = orderInfo.getMemberId();
         List<ItemDTO> items = orderInfo.getItems();
 
