@@ -3,14 +3,12 @@ package kimjinung.platform.domain.order;
 
 import kimjinung.platform.domain.base.BaseEntity;
 import kimjinung.platform.domain.common.Address;
-import kimjinung.platform.domain.item.Item;
 import kimjinung.platform.domain.member.Member;
 import kimjinung.platform.domain.shipment.Shipment;
 import lombok.Getter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static javax.persistence.FetchType.LAZY;
@@ -22,7 +20,7 @@ public class Order extends BaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "order_id")
-    private String id;
+    private Long id;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "member_id")
@@ -43,8 +41,15 @@ public class Order extends BaseEntity {
 
     }
 
+    public Order(Member member) {
+        this.member = member;
+        this.status = OrderStatus.COMPLETE;
+        this.shipment = createShipment(this, member.getAddress());
+    }
+
     public Order(Member member, Address address) {
         this.member = member;
+        this.status = OrderStatus.COMPLETE;
         this.shipment = createShipment(this, address);
     }
 
@@ -52,7 +57,11 @@ public class Order extends BaseEntity {
         return new Shipment(order, address);
     }
 
-    public  void addOrderItems(List<OrderItem> orderItems) {
+    public void addOrderItems(List<OrderItem> orderItems) {
         this.orderItems = orderItems;
+    }
+
+    public void cancelOrder() {
+        this.status = OrderStatus.CANCEL;
     }
 }

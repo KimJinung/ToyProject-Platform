@@ -12,7 +12,7 @@ import java.util.List;
 
 import static javax.persistence.GenerationType.AUTO;
 
-@Getter @Setter
+@Getter
 @Entity
 public class Item extends BaseEntity {
 
@@ -28,6 +28,19 @@ public class Item extends BaseEntity {
 
     @OneToMany(mappedBy = "item")
     private List<CategoryItem> categories = new ArrayList<>();
+
+    protected Item() {
+    }
+
+    public Item(String name, Long price, Integer stockQuantity) {
+        this.name = name;
+        this.price = price;
+        this.stockQuantity = stockQuantity;
+    }
+
+    public void addCategories(List<CategoryItem> categories) {
+        this.categories = categories;
+    }
 
     public void addStock(int quantity) {
         this.stockQuantity += quantity;

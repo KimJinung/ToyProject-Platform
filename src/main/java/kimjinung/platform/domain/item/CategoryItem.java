@@ -24,5 +24,12 @@ public class CategoryItem extends BaseEntity {
     @JoinColumn(name = "category_id")
     private Category category;
 
-    // TODO Add child method
+    public CategoryItem() {
+    }
+
+    public CategoryItem(Item item, Category category) {
+        this.item = item;
+        this.category = category;
+    }
+
 }

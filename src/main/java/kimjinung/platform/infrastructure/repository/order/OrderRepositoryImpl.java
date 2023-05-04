@@ -18,4 +18,10 @@ public class OrderRepositoryImpl implements OrderRepository {
     public void save(Order order) {
         em.persist(order);
     }
+
+    public Order findById(Long id) {
+        Order order = em.find(Order.class, id);
+
+        return order;
+    }
 }
