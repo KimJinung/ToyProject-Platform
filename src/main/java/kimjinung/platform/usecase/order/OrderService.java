@@ -1,9 +1,10 @@
 package kimjinung.platform.usecase.order;
 
-import kimjinung.platform.domain.item.Item;
-import kimjinung.platform.domain.member.Member;
+import kimjinung.platform.dto.ItemDTO;
+import kimjinung.platform.dto.OrderInfoDTO;
 
 public interface OrderService {
 
-    boolean order(Member member, Item... item);
+    void order(OrderInfoDTO orderInfo);
+
 }

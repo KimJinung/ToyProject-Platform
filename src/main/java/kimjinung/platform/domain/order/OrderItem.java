@@ -28,4 +28,14 @@ public class OrderItem extends BaseEntity {
     private Integer quantity;
 
     private Long orderPrice;
+
+    public OrderItem() {
+    }
+
+    public OrderItem(Order order, Item item, Integer quantity) {
+        this.order = order;
+        this.item = item;
+        this.quantity = quantity;
+        this.orderPrice = item.getPrice() * quantity;
+    }
 }

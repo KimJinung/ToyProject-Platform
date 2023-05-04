@@ -9,7 +9,6 @@ import kimjinung.platform.domain.shipment.Shipment;
 import lombok.Getter;
 
 import javax.persistence.*;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -44,14 +43,16 @@ public class Order extends BaseEntity {
 
     }
 
-    public Order(Member member, OrderItem... orderItems) { // 이 orderItems 넘기는 게 서비스 레이어에서 해주어야 할까.. 아닐텐데
+    public Order(Member member, Address address) {
         this.member = member;
-        this.orderItems = Arrays.asList(orderItems);
-        this.shipment = generateShipmentInfo(this, member.getAddress());
+        this.shipment = createShipment(this, address);
     }
 
-
-    private Shipment generateShipmentInfo(Order order, Address address) {
+    private Shipment createShipment(Order order, Address address) {
         return new Shipment(order, address);
+    }
+
+    public  void addOrderItems(List<OrderItem> orderItems) {
+        this.orderItems = orderItems;
     }
 }
