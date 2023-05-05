@@ -8,4 +8,14 @@ import java.time.LocalDateTime;
 public class BaseEntity {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+
+    public BaseEntity() {
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    public void changeUpdateAt() {
+        this.updatedAt = LocalDateTime.now();
+    }
+
 }
