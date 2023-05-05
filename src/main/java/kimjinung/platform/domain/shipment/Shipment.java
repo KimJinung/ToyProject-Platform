@@ -36,4 +36,5 @@ public class Shipment extends BaseEntity {
         this.address = address;
         this.status = ShipmentStatus.PENDING;
     }
+
 }

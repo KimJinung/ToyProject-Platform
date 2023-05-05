@@ -3,6 +3,7 @@ package kimjinung.platform.domain.item;
 
 import kimjinung.platform.domain.base.BaseEntity;
 import kimjinung.platform.exception.NotEnoughStockEx;
+
 import lombok.Getter;
 
 import javax.persistence.*;
@@ -55,4 +56,5 @@ public class Item extends BaseEntity {
 
         this.stockQuantity = remainingStock;
     }
+
 }

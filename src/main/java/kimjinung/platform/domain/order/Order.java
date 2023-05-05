@@ -3,6 +3,7 @@ package kimjinung.platform.domain.order;
 
 import kimjinung.platform.domain.base.BaseEntity;
 import kimjinung.platform.domain.common.Address;
+
 import kimjinung.platform.domain.member.Member;
 import kimjinung.platform.domain.shipment.Shipment;
 import lombok.Getter;
@@ -34,10 +35,10 @@ public class Order extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
 
+
     @OneToOne(fetch = LAZY, cascade = ALL)
     @JoinColumn(name = "shipment_id", unique = true)
     private Shipment shipment;
-
 
     public Order() {
 
@@ -66,4 +67,5 @@ public class Order extends BaseEntity {
     public void cancelOrder() {
         this.status = OrderStatus.CANCEL;
     }
+    
 }
