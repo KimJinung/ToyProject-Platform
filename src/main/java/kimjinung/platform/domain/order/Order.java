@@ -34,7 +34,7 @@ public class Order extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
 
-    @OneToOne(fetch = LAZY, cascade = ALL)
+    @OneToOne(fetch = LAZY, cascade = PERSIST)
     @JoinColumn(name = "shipment_id", unique = true)
     private Shipment shipment;
 

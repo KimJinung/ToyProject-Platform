@@ -18,7 +18,7 @@ public class Shipment extends BaseEntity {
     @Column(name = "shipment_id")
     private Long id;
 
-    @OneToOne(fetch = LAZY, mappedBy = "shipment")
+    @OneToOne(fetch = LAZY, mappedBy = "shipment", cascade = PERSIST)
     private Order order;
 
     @Embedded
