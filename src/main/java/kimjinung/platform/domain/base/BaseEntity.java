@@ -17,4 +17,5 @@ public class BaseEntity {
     public void changeUpdateAt() {
         this.updatedAt = LocalDateTime.now();
     }
+
 }
