@@ -10,8 +10,8 @@ import java.util.List;
 
 import static javax.persistence.FetchType.LAZY;
 
-@Entity
 @Getter
+@Entity
 public class Category extends BaseEntity {
 
     @Id @GeneratedValue
@@ -30,20 +30,12 @@ public class Category extends BaseEntity {
     protected Category() {
     }
 
-    public Category(String name) {
+    public Category(String name, Category parent) {
         this.name = name;
-    }
-
-    public void addParent(Category category) {
         this.parent = parent;
     }
-
-    public void addChild(List<Category> categories) {
-
-        for (Category category: categories) {
-            this.child.add(category);
-
-        }
+    public void addChild(Category category) {
+        this.child.add(category);
     }
 
 }

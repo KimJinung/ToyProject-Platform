@@ -4,12 +4,12 @@ package kimjinung.platform.domain.item;
 import kimjinung.platform.domain.base.BaseEntity;
 import kimjinung.platform.exception.NotEnoughStockEx;
 import lombok.Getter;
-import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static javax.persistence.CascadeType.PERSIST;
 import static javax.persistence.GenerationType.AUTO;
 
 @Getter
@@ -22,24 +22,24 @@ public class Item extends BaseEntity {
 
     private String name;
 
-    private Long price;
+    private Integer price;
 
     private Integer stockQuantity;
 
-    @OneToMany(mappedBy = "item")
+    @OneToMany(mappedBy = "item", cascade = PERSIST)
     private List<CategoryItem> categories = new ArrayList<>();
 
     protected Item() {
     }
 
-    public Item(String name, Long price, Integer stockQuantity) {
+    public Item(String name, Integer price, Integer stockQuantity) {
         this.name = name;
         this.price = price;
         this.stockQuantity = stockQuantity;
     }
 
-    public void addCategories(List<CategoryItem> categories) {
-        this.categories = categories;
+    public void addCategoryItem(CategoryItem categoryItem) {
+        this.categories.add(categoryItem);
     }
 
     public void addStock(int quantity) {

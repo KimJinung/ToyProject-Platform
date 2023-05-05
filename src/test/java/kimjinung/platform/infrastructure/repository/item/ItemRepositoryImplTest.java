@@ -11,6 +11,7 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
+import java.util.List;
 
 
 @Rollback(value = false)
@@ -24,31 +25,31 @@ class ItemRepositoryImplTest {
     @Test
     @Transactional
     public void testSaveAndFindByName() {
-        Item item = new Item("Ramen", 1000L, 10);
+        Item item = new Item("Ramen", 1000, 10);
 
-        Category category = new Category("Food");
+        Category category = new Category("Food", null);
 
         CategoryItem categoryItem = new CategoryItem(item, category);
 
-        item.addCategories(Arrays.asList(categoryItem));
+        item.addCategoryItem(categoryItem);
 
         itemRepository.save(item);
 
-        Item foundItem = itemRepository.findByName("Ramen");
+        List<Item> items = itemRepository.findByName("Ramen");
 
-        Assertions.assertThat(foundItem.getName()).isEqualTo(item.getName());
+        Assertions.assertThat(items.size()).isEqualTo(1);
     }
 
     @Test
     @Transactional
     public void testFindById() {
-        Item item = new Item("Ramen", 1000L, 10);
+        Item item = new Item("Ramen", 1000, 10);
 
-        Category category = new Category("Food");
+        Category category = new Category("Food", null);
 
         CategoryItem categoryItem = new CategoryItem(item, category);
 
-        item.addCategories(Arrays.asList(categoryItem));
+        item.addCategoryItem(categoryItem);
 
         itemRepository.save(item);
 

@@ -27,7 +27,7 @@ public class OrderItem extends BaseEntity {
 
     private Integer quantity;
 
-    private Long orderPrice;
+    private Integer orderPrice;
 
     public OrderItem() {
     }

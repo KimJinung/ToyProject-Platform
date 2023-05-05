@@ -7,6 +7,7 @@ import lombok.Getter;
 
 import javax.persistence.*;
 
+import static javax.persistence.CascadeType.PERSIST;
 import static javax.persistence.FetchType.LAZY;
 
 @Getter

@@ -1,11 +1,13 @@
 package kimjinung.platform.infrastructure.repository.item;
 
 
+import kimjinung.platform.domain.item.Category;
 import kimjinung.platform.domain.item.Item;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
@@ -35,10 +37,10 @@ public class ItemRepositoryImpl implements ItemRepository{
     }
 
     @Override
-    public Item findByName(String name) {
-        return (Item) em.createQuery("select i from Item i where i.name = :name")
+    public List<Item> findByName(String name) {
+        return em.createQuery("select i from Item i where i.name = :name")
                 .setParameter("name", name)
-                .getSingleResult();
+                .getResultList();
     }
 
 }
