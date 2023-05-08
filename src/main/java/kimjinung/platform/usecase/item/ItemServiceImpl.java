@@ -5,7 +5,7 @@ import kimjinung.platform.domain.item.Category;
 import kimjinung.platform.domain.item.CategoryItem;
 import kimjinung.platform.domain.item.Item;
 import kimjinung.platform.dto.item.ItemDTO;
-import kimjinung.platform.exception.NotEnoughStockEx;
+import kimjinung.platform.exception.NotEnoughStockException;
 import kimjinung.platform.infrastructure.repository.category.CategoryRepository;
 import kimjinung.platform.infrastructure.repository.item.ItemRepository;
 import lombok.RequiredArgsConstructor;
@@ -60,12 +60,12 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public boolean reduceStock(Long id, int quantity) throws NotEnoughStockEx {
+    public boolean reduceStock(Long id, int quantity) throws NotEnoughStockException {
         Item targetItem = itemRepository.findById(id);
 
         try {
             targetItem.reduceStock(quantity);
-        } catch (NotEnoughStockEx e) {
+        } catch (NotEnoughStockException e) {
             return false;
         }
 

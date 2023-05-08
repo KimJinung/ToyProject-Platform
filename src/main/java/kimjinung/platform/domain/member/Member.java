@@ -4,9 +4,9 @@ import kimjinung.platform.domain.base.BaseEntity;
 import kimjinung.platform.domain.common.Address;
 import kimjinung.platform.domain.order.Order;
 import lombok.Getter;
-import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -25,7 +25,7 @@ public class Member extends BaseEntity {
     private Address address;
 
     @OneToMany(mappedBy = "member")
-    private List<Order> orderHistory;
+    private final List<Order> orderHistory = new ArrayList<>();
 
     public Member() {
 

@@ -25,15 +25,21 @@ public class Category extends BaseEntity {
     private Category parent;
 
     @OneToMany(mappedBy = "parent")
-    private List<Category> child = new ArrayList<>();
+    private final List<Category> child = new ArrayList<>();
 
     protected Category() {
+    }
+
+    public Category(String name) {
+        this.name = name;
+        this.parent = null;
     }
 
     public Category(String name, Category parent) {
         this.name = name;
         this.parent = parent;
     }
+
     public void addChild(Category category) {
         this.child.add(category);
     }

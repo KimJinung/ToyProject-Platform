@@ -2,7 +2,7 @@ package kimjinung.platform.domain.item;
 
 
 import kimjinung.platform.domain.base.BaseEntity;
-import kimjinung.platform.exception.NotEnoughStockEx;
+import kimjinung.platform.exception.NotEnoughStockException;
 
 import lombok.Getter;
 
@@ -28,7 +28,7 @@ public class Item extends BaseEntity {
     private Integer stockQuantity;
 
     @OneToMany(mappedBy = "item", cascade = PERSIST)
-    private List<CategoryItem> categories = new ArrayList<>();
+    private final List<CategoryItem> categories = new ArrayList<>();
 
     protected Item() {
     }
@@ -51,7 +51,7 @@ public class Item extends BaseEntity {
         int remainingStock = this.stockQuantity - stockQuantity;
 
         if (remainingStock < 0) {
-            throw new NotEnoughStockEx("Can't reduce to less than 0 in stock");
+            throw new NotEnoughStockException("Can't reduce to less than 0 in stock");
         }
 
         this.stockQuantity = remainingStock;
