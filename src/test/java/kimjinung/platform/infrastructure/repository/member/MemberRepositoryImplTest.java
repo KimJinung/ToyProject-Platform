@@ -2,8 +2,6 @@ package kimjinung.platform.infrastructure.repository.member;
 
 import kimjinung.platform.domain.common.Address;
 import kimjinung.platform.domain.member.Member;
-import org.aspectj.lang.annotation.Before;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
