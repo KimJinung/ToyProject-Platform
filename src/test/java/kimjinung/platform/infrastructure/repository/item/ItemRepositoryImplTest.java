@@ -4,60 +4,65 @@ import kimjinung.platform.domain.item.Category;
 import kimjinung.platform.domain.item.CategoryItem;
 import kimjinung.platform.domain.item.Item;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
+import javax.persistence.EntityManager;
 import java.util.List;
+import java.util.Optional;
+
+import static org.assertj.core.api.Assertions.*;
 
 
-@Rollback(value = false)
 @Transactional(readOnly = true)
 @SpringBootTest
 class ItemRepositoryImplTest {
 
     @Autowired
-    ItemRepository itemRepository;
+    EntityManager em;
 
-    @Test
-    @Transactional
-    public void testSaveAndFindByName() {
-        Item item = new Item("Ramen", 1000, 10);
+    @Autowired
+    ItemRepository repository;
 
-        Category category = new Category("Food", null);
+    private Item item;
+    private Category category;
+    private CategoryItem categoryItem;
 
-        CategoryItem categoryItem = new CategoryItem(item, category);
+    @BeforeEach
+    void beforeEach() {
+        item = new Item("Ramen", 1000, 10);
+        category = new Category("Food", null);
+        categoryItem = new CategoryItem(item, category);
 
         item.addCategoryItem(categoryItem);
-
-        itemRepository.save(item);
-
-        List<Item> items = itemRepository.findByName("Ramen");
-
-        Assertions.assertThat(items.size()).isEqualTo(1);
+        repository.save(item);
+        em.flush();
+        em.clear();
     }
 
     @Test
     @Transactional
-    public void testFindById() {
-        Item item = new Item("Ramen", 1000, 10);
+    void testFindByName() {
+        List<Item> items = repository.findByName("Ramen");
 
-        Category category = new Category("Food", null);
-
-        CategoryItem categoryItem = new CategoryItem(item, category);
-
-        item.addCategoryItem(categoryItem);
-
-        itemRepository.save(item);
-
-        Item foundItem = itemRepository.findById(1L);
-
-        Assertions.assertThat(foundItem.getId()).isEqualTo(1L);
-        Assertions.assertThat(foundItem.getName()).isEqualTo("Ramen");
+        assertThat(items.size()).isEqualTo(1);
     }
 
-    // TODO Write test case for adding category methods
+    @Test
+    @Transactional
+    void testFindById() {
+        List<Item> items = repository.findByName("Ramen");
+        Item result = items.stream().findFirst().orElse(null);
+
+        assertThat(result).isNotNull();
+
+        Long targetId = result.getId();
+        Item foundItem = repository.findById(targetId);
+
+        assertThat(foundItem.getName()).isEqualTo("Ramen");
+    }
+
 }

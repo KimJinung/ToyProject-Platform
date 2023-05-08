@@ -2,8 +2,12 @@ package kimjinung.platform.infrastructure.repository.member;
 
 import kimjinung.platform.domain.member.Member;
 
+import java.util.List;
+
 public interface MemberRepository {
-    public void save(Member member);
-    public Member findById(Long id);
+    void save(Member member);
+    Member findById(Long id);
+
+    List<Member> findByName(String name);
 
 }

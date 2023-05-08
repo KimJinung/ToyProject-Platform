@@ -6,6 +6,7 @@ import lombok.Getter;
 
 import javax.persistence.*;
 
+import static javax.persistence.CascadeType.PERSIST;
 import static javax.persistence.FetchType.LAZY;
 
 
@@ -16,11 +17,11 @@ public class CategoryItem extends BaseEntity {
     @Column(name = "category_item_id")
     private Long id;
 
-    @ManyToOne(fetch = LAZY)
+    @ManyToOne(fetch = LAZY, cascade = PERSIST)
     @JoinColumn(name = "item_id")
     private Item item;
 
-    @ManyToOne(fetch = LAZY)
+    @ManyToOne(fetch = LAZY, cascade = PERSIST)
     @JoinColumn(name = "category_id")
     private Category category;
 

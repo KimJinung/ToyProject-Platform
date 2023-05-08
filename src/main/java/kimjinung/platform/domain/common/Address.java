@@ -2,6 +2,7 @@ package kimjinung.platform.domain.common;
 
 
 import javax.persistence.Embeddable;
+import java.util.Objects;
 
 @Embeddable
 public class Address {
@@ -16,5 +17,16 @@ public class Address {
         this.city = city;
         this.street = street;
         this.zipCode = zipCode;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Address)) return false;
+
+        Address addressObj = (Address) obj;
+
+        return Objects.equals(this.city, addressObj.city) &&
+                Objects.equals(this.street, addressObj.street) &&
+                Objects.equals(this.zipCode, addressObj.zipCode);
     }
 }

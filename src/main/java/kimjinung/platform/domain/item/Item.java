@@ -27,7 +27,7 @@ public class Item extends BaseEntity {
 
     private Integer stockQuantity;
 
-    @OneToMany(mappedBy = "item", cascade = PERSIST)
+    @OneToMany(mappedBy = "item")
     private final List<CategoryItem> categories = new ArrayList<>();
 
     protected Item() {

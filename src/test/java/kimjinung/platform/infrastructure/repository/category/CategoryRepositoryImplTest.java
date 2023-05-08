@@ -1,26 +1,20 @@
 package kimjinung.platform.infrastructure.repository.category;
 
 import kimjinung.platform.domain.item.Category;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 @Transactional(readOnly = true)
 @SpringBootTest
 class CategoryRepositoryImplTest {
 
-
     @Autowired
-    CategoryRepository categoryRepository;
+    CategoryRepository repository;
 
     @BeforeEach
     void beforeEach() {
@@ -29,21 +23,30 @@ class CategoryRepositoryImplTest {
 
         parent.addChild(child);
 
-        categoryRepository.save(child);
-        categoryRepository.save(parent);
+        repository.save(child);
+        repository.save(parent);
     }
 
     @Test
     @Transactional
-    @Rollback(value = false)
-    void findByNameTest() {
-        Category result = categoryRepository.findByName("PC");
+    void testFindById() {
+        Category category = repository.findByName("PC");
+        Long id = category.getId();
+        Category result = repository.findById(id);
 
-        assertThat(result.getName()).isEqualTo("PC");
+        assertThat(result).isEqualTo(category);
 
-        assertThat(result.getParent().getName()).isEqualTo("Digital");
+    }
+    @Test
+    @Transactional
+    void testFindByName() {
+        Category category = repository.findByName("PC");
 
-        for (Category childCategory : result.getParent().getChild()) {
+        assertThat(category.getName()).isEqualTo("PC");
+
+        assertThat(category.getParent().getName()).isEqualTo("Digital");
+
+        for (Category childCategory : category.getParent().getChild()) {
             assertThat(childCategory.getParent().getName()).isEqualTo("Digital");
         }
     }
