@@ -38,7 +38,6 @@ public class Order extends BaseEntity {
     @JoinColumn(name = "shipment_id", unique = true)
     private Shipment shipment;
 
-
     public Order() {
 
     }
@@ -66,4 +65,5 @@ public class Order extends BaseEntity {
     public void cancelOrder() {
         this.status = OrderStatus.CANCEL;
     }
+
 }
