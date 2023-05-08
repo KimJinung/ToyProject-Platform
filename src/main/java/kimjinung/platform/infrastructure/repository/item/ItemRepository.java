@@ -1,7 +1,6 @@
 package kimjinung.platform.infrastructure.repository.item;
 
 
-import kimjinung.platform.domain.item.Category;
 import kimjinung.platform.domain.item.Item;
 
 import java.util.List;
