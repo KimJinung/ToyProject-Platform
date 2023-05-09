@@ -8,16 +8,24 @@ import kimjinung.platform.infrastructure.repository.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Optional;
+
 
 @Service
 @RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService{
 
-    private final MemberRepository memberRepository;
+    private final MemberRepository repository;
 
     @Override
-    public void join(MemberDTO memberDTO) {
+    public boolean join(MemberDTO memberDTO) {
         String name = memberDTO.getName();
+
+        if (repository.findByUsername(name).isPresent()) {
+            return false;
+        }
+
         String password = memberDTO.getPassword();
         AddressDTO addressDTO = memberDTO.getAddress();
         String city = addressDTO.getCity();
@@ -27,7 +35,23 @@ public class MemberServiceImpl implements MemberService{
         Address address = new Address(city, street, postCode);
         Member member = new Member(name, password, address);
 
-        memberRepository.save(member);
+        repository.save(member);
+        return true;
     }
+
+    @Override
+    public Member searchById(Long id) {
+        Optional<Member> member = repository.findById(id);
+
+        return member.orElse(null);
+    }
+
+    @Override
+    public Member search(String name) {
+        Optional<Member> member = repository.findByUsername(name);
+
+        return member.orElse(null);
+    }
+
 
 }

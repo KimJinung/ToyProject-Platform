@@ -8,19 +8,20 @@ import kimjinung.platform.domain.order.OrderItem;
 import kimjinung.platform.dto.order.OrderItemDTO;
 import kimjinung.platform.dto.order.OrderInfoDTO;
 import kimjinung.platform.infrastructure.repository.item.ItemRepository;
-import kimjinung.platform.infrastructure.repository.member.MemberRepository;
 import kimjinung.platform.infrastructure.repository.order.OrderRepository;
+import kimjinung.platform.usecase.member.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService{
 
-    private final MemberRepository memberRepository;
+    private final MemberService memberService;
     private final ItemRepository itemRepository;
     private final OrderRepository orderRepository;
 
@@ -28,8 +29,7 @@ public class OrderServiceImpl implements OrderService{
     public void order(OrderInfoDTO orderInfo) {
         Long memberId = orderInfo.getMemberId();
         List<OrderItemDTO> items = orderInfo.getItems();
-
-        Member member = memberRepository.findById(memberId);
+        Member member = memberService.searchById(memberId);
 
         String city = orderInfo.getAddressDTO().getCity();
         String street = orderInfo.getAddressDTO().getStreet();
@@ -59,7 +59,9 @@ public class OrderServiceImpl implements OrderService{
     }
 
     @Override
-    public Order find(Long id) {
-        return orderRepository.findById(id);
+    public List<Order> findAllByUsername(String name) {
+        Optional<List<Order>> result = orderRepository.findAllByUsername(name);
+
+        return result.orElse(null);
     }
 }

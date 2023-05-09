@@ -6,10 +6,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
-import java.util.List;
+
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -28,7 +30,7 @@ class MemberRepositoryImplTest {
 
     @BeforeEach
     void beforeEach() {
-        address = new Address("Ky", "Sw", "95");
+        address = new Address("KY", "SW", "95");
         member = new Member("JinungKim", "0410", address);
 
         repository.save(member);
@@ -39,20 +41,19 @@ class MemberRepositoryImplTest {
 
     @Test
     @Transactional
+    @Rollback(value = false)
     void testFindByName() {
-        List<Member> members = repository.findByName("JinungKim");
-        Member result = members.stream().findFirst().orElse(null);
+        Optional<Member> result = repository.findByUsername("JinungKim");
 
-        assertThat(members).isNotEmpty();
-        assertThat(result.getName()).isEqualTo("JinungKim");
+        assertThat(this.member.getName()).isEqualTo(result.get().getName());
     }
 
     @Test
     @Transactional
     void testFindById() {
         Long id = member.getId();
-        Member result = repository.findById(id);
-
+        Optional<Member> foundMember = repository.findById(id);
+        Member result = foundMember.orElse(null);
         assertThat(result).isNotNull();
         assertThat(result.getName()).isEqualTo("JinungKim");
         assertThat(result.getAddress()).isEqualTo(address);

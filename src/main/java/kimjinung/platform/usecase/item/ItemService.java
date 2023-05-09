@@ -11,7 +11,7 @@ public interface ItemService {
 
     List<Item> find(String name);
 
-    void remove(Long id);
+    boolean remove(Long id);
 
     boolean addStock(Long id, int quantity);
 

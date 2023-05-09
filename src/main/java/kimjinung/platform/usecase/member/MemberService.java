@@ -3,6 +3,10 @@ package kimjinung.platform.usecase.member;
 import kimjinung.platform.domain.member.Member;
 import kimjinung.platform.dto.member.MemberDTO;
 
+import java.util.List;
+
 public interface MemberService {
-    void join(MemberDTO memberDTO);
+    boolean join(MemberDTO memberDTO);
+    Member searchById(Long id);
+    Member search(String name);
 }

@@ -2,7 +2,9 @@ package kimjinung.platform.usecase.order;
 
 import kimjinung.platform.domain.item.Category;
 import kimjinung.platform.domain.item.Item;
+import kimjinung.platform.domain.member.Member;
 import kimjinung.platform.domain.order.Order;
+import kimjinung.platform.domain.order.OrderItem;
 import kimjinung.platform.dto.item.CategoryDTO;
 import kimjinung.platform.dto.item.ItemDTO;
 import kimjinung.platform.dto.member.AddressDTO;
@@ -12,7 +14,6 @@ import kimjinung.platform.dto.order.OrderItemDTO;
 import kimjinung.platform.usecase.category.CategoryService;
 import kimjinung.platform.usecase.item.ItemService;
 import kimjinung.platform.usecase.member.MemberService;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.assertj.core.api.Assertions.*;
 
 @SpringBootTest
 @Transactional(readOnly = true)
@@ -64,25 +67,53 @@ class OrderServiceImplTest {
 
     @Test
     @Transactional
-    @Rollback(value = false)
-    void orderTest() {
-        OrderItemDTO orderItem1 = new OrderItemDTO(4L, 2);
-        OrderItemDTO orderItem2 = new OrderItemDTO(6L, 10);
+    void testOrder() {
+        Member member = memberService.search("JinungKim");
+        Item item = itemService.find("MacBook").stream().findFirst().orElse(null);
 
-        ArrayList<OrderItemDTO> orderItems = new ArrayList<>();
-        orderItems.add(orderItem1);
-        orderItems.add(orderItem2);
+        assertThat(item).isNotNull();
 
-        AddressDTO address = new AddressDTO("KY", "SW", "95");
+        AddressDTO addressDTO = new AddressDTO("KY", "SW", "95");
+        ArrayList<OrderItemDTO> orderItems = new ArrayList<>() {{
+            add(new OrderItemDTO(item.getId(), 10));
+        }};
 
-        OrderInfoDTO orderInfo = new OrderInfoDTO(1L, address, orderItems);
+        OrderInfoDTO orderInfoDTO = new OrderInfoDTO(member.getId(), addressDTO, orderItems);
 
-        orderService.order(orderInfo);
+        orderService.order(orderInfoDTO);
+    }
 
-        Order order = orderService.find(8L);
+    @Test
+    @Transactional
+    void testFindAllByUsername() {
+        Member member = memberService.search("JinungKim");
+        Item item = itemService.find("MacBook").stream().findFirst().orElse(null);
 
-        Assertions.assertThat(order.getMember().getName()).isEqualTo("JinungKim");
+        assertThat(item).isNotNull();
 
+        AddressDTO addressDTO = new AddressDTO("KY", "SW", "95");
+        ArrayList<OrderItemDTO> orderItems = new ArrayList<>() {{
+            add(new OrderItemDTO(item.getId(), 10));
+        }};
+
+        OrderInfoDTO orderInfoDTO = new OrderInfoDTO(member.getId(), addressDTO, orderItems);
+
+        orderService.order(orderInfoDTO);
+
+        List<Order> orders = orderService.findAllByUsername("JinungKim");
+
+        assertThat(orders).isNotEmpty();
+
+        Order order = orders.stream().findFirst().orElse(null);
+        assertThat(order).isNotNull();
+
+        assertThat(order.getMember().getName()).isEqualTo("JinungKim");
+
+        OrderItem orderItem = order.getOrderItems().stream().findFirst().orElse(null);
+        System.out.println("orderItem = " + orderItem);
+        String name = orderItem.getItem().getName();
+
+        assertThat(name).isEqualTo("MacBook");
     }
 
 }
