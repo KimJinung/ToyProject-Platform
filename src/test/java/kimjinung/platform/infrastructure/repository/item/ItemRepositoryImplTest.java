@@ -64,4 +64,16 @@ class ItemRepositoryImplTest {
         assertThat(foundItem.getName()).isEqualTo("Ramen");
     }
 
+    @Test
+    @Transactional
+    void testDelete() {
+        List<Item> items = repository.findByName("Ramen");
+        Item item = items.stream().findFirst().orElse(null);
+        assertThat(item).isNotNull();
+
+        boolean result = repository.delete(item);
+
+        assertThat(result).isTrue();
+    }
+
 }

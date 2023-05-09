@@ -8,7 +8,7 @@ import java.util.List;
 public interface ItemRepository {
     void save(Item item);
 
-    boolean delete(Long id);
+    boolean delete(Item item);
 
     Item findById(Long id);
 
