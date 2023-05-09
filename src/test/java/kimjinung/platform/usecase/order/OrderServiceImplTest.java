@@ -1,9 +1,7 @@
 package kimjinung.platform.usecase.order;
 
-import kimjinung.platform.domain.common.Address;
 import kimjinung.platform.domain.item.Category;
 import kimjinung.platform.domain.item.Item;
-import kimjinung.platform.domain.member.Member;
 import kimjinung.platform.domain.order.Order;
 import kimjinung.platform.dto.item.CategoryDTO;
 import kimjinung.platform.dto.item.ItemDTO;
@@ -11,7 +9,6 @@ import kimjinung.platform.dto.member.AddressDTO;
 import kimjinung.platform.dto.member.MemberDTO;
 import kimjinung.platform.dto.order.OrderInfoDTO;
 import kimjinung.platform.dto.order.OrderItemDTO;
-import kimjinung.platform.infrastructure.repository.item.ItemRepository;
 import kimjinung.platform.usecase.category.CategoryService;
 import kimjinung.platform.usecase.item.ItemService;
 import kimjinung.platform.usecase.member.MemberService;
@@ -48,7 +45,7 @@ class OrderServiceImplTest {
         ArrayList<String> child = new ArrayList<>();
         child.add("PC");
         CategoryDTO categoryDTO = new CategoryDTO("Digital", child);
-        categoryService.add(categoryDTO);
+        categoryService.register(categoryDTO);
 
         ArrayList<Long> categories = new ArrayList<>();
 

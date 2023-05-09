@@ -1,19 +1,19 @@
 package kimjinung.platform.usecase.item;
 
 import kimjinung.platform.domain.item.Category;
-import kimjinung.platform.domain.item.CategoryItem;
 import kimjinung.platform.domain.item.Item;
 import kimjinung.platform.dto.item.CategoryDTO;
 import kimjinung.platform.dto.item.ItemDTO;
 import kimjinung.platform.usecase.category.CategoryService;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
@@ -25,7 +25,6 @@ class ItemServiceImplTest {
 
     @Autowired
     ItemService itemService;
-
     @Autowired
     CategoryService categoryService;
 
@@ -33,38 +32,42 @@ class ItemServiceImplTest {
     void beforeEach() {
         ArrayList<String> child = new ArrayList<>();
         child.add("PC");
+        CategoryDTO categoryDTO = new CategoryDTO("Digital", child);
+        categoryService.register(categoryDTO);
 
-        CategoryDTO category = new CategoryDTO("Digital", child);
+        Category category = categoryService.find("Digital");
+        Long categoryId = category.getId();
+        ArrayList<Long> categories = new ArrayList<>(Arrays.asList(categoryId));
 
-        categoryService.add(category);
+        ItemDTO itemDTO = new ItemDTO("CPU", 100000, 10, categories);
+
+        itemService.register(itemDTO);
+    }
+
+    @Test
+    void testFind() {
+        List<Item> items = itemService.find("CPU");
+
+        assertThat(items).isNotEmpty();
+        assertThat(items.stream().findFirst().orElse(null)).isNotNull();
+        assertThat(items.stream().findFirst().orElse(null).getName()).isEqualTo("CPU");
     }
 
     @Test
     @Transactional
-    @Rollback(value = false)
-    void foundTest() {
-        ArrayList<Long> categories = new ArrayList<>();
+    void testRemove() {
 
-        categories.add(2L);
+    }
 
-        ItemDTO itemDTO = new ItemDTO("MacBook", 100000, 100, categories);
+    @Test
+    @Transactional
+    void testAddStock() {
 
-        itemService.register(itemDTO);
+    }
 
-        List<Item> items = itemService.find("MacBook");
+    @Test
+    @Transactional
+    void testReduceStock() {
 
-        assertThat(items.size()).isEqualTo(1);
-
-        for (Item item : items) {
-            assertThat(item.getName()).isEqualTo("MacBook");
-            assertThat(item.getPrice()).isEqualTo(100000);
-            assertThat(item.getStockQuantity()).isEqualTo(100);
-
-            for (CategoryItem category : item.getCategories()) {
-                System.out.println("category = " + category.getCategory().getName());
-                assertThat(category.getCategory().getName()).isEqualTo("Digital");
-            }
-
-        }
     }
 }

@@ -16,7 +16,7 @@ public class CategoryServiceImpl implements CategoryService {
     private final CategoryRepository categoryRepository;
 
     @Override
-    public void add(CategoryDTO category) {
+    public void register(CategoryDTO category) {
         String name = category.getName();
         List<String> childCategories = category.getChild();
 

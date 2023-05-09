@@ -56,7 +56,6 @@ public class ItemServiceImpl implements ItemService {
         targetItem.addStock(quantity);
 
         return true;
-
     }
 
     @Override
@@ -70,6 +69,5 @@ public class ItemServiceImpl implements ItemService {
         }
 
         return true;
-
     }
 }

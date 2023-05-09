@@ -5,7 +5,7 @@ import kimjinung.platform.dto.item.CategoryDTO;
 
 public interface CategoryService {
 
-    void add(CategoryDTO categoryDTO);
+    void register(CategoryDTO categoryDTO);
 
     Category find(String name);
 }
