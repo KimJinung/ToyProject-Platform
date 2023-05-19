@@ -1,40 +1,33 @@
 package kimjinung.platform.domain.shipment;
 
-import kimjinung.platform.domain.base.BaseEntity;
-import kimjinung.platform.domain.common.Address;
 import kimjinung.platform.domain.order.Order;
 import lombok.Getter;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.UUID;
 
 import static javax.persistence.CascadeType.PERSIST;
-import static javax.persistence.FetchType.LAZY;
 
 @Getter
 @Entity
-public class Shipment extends BaseEntity {
+public class Shipment {
 
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id
+    @GeneratedValue(generator = "uuidGenerator")
+    @GenericGenerator(name = "uuidGenerator", strategy = "org.hibernate.id.UUIDGenerator")
     @Column(name = "shipment_id")
-    private Long id;
+    private UUID id;
 
-    @OneToOne(fetch = LAZY, mappedBy = "shipment", cascade = PERSIST)
+    @OneToOne(cascade = PERSIST)
     private Order order;
-
-    @Embedded
-    private Address address;
-
-    @Enumerated(EnumType.STRING)
     private ShipmentStatus status;
 
     public Shipment() {
-
     }
 
-    public Shipment(Order order, Address address) {
+    public Shipment(Order order) {
         this.order = order;
-        this.address = address;
         this.status = ShipmentStatus.PENDING;
     }
-
 }

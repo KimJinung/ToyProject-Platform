@@ -1,45 +1,75 @@
 package kimjinung.platform.domain.order;
 
-import kimjinung.platform.domain.common.Address;
+import kimjinung.platform.domain.item.Item;
 import kimjinung.platform.domain.member.Member;
-import kimjinung.platform.domain.shipment.Shipment;
+import kimjinung.platform.domain.shipment.ShipmentStatus;
+import kimjinung.platform.exception.NotEnoughStockException;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
+
+import java.util.List;
+import java.util.stream.IntStream;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class OrderTest {
 
-    private Order order;
-    private Member member;
-    private Address address;
+    Order order;
+    Member member;
+    List<Item> items;
 
     @BeforeEach
-    public void beforeEach() {
-        member = new Member("JinungKim", "0410", address);
-        address = new Address("KY", "SW", "95");
-        order = new Order(member, address);
-    }
-    @Test
-    @org.junit.jupiter.api.Order(1)
-    void testCreateShipment() {
-        Shipment shipment = order.getShipment();
-        assertThat(shipment.getOrder()).isEqualTo(order);
-        assertThat(shipment.getOrder().getMember()).isEqualTo(member);
-        assertThat(shipment.getAddress()).isEqualTo(address);
-        assertThat(order.getStatus()).isEqualTo(OrderStatus.COMPLETE);
+    void beforeEach() {
+        member = new Member("Jinung Kim", "0410");
+        order = new Order(member);
     }
 
     @Test
-    @org.junit.jupiter.api.Order(2)
-    void testCancelOrder() {
-        order.cancelOrder();
+    void testAddItem() {
+        IntStream.rangeClosed(1, 10)
+                        .forEach(i -> {
+                            String itemName = String.format("item%s", i);
+                            Item item = new Item(itemName, i, i, null);
+                            order.addItem(item, i);
+                        });
 
-        assertThat(order.getStatus()).isEqualTo(OrderStatus.CANCEL);
+        assertThat(order.getItems().size()).isEqualTo(10);
+
+
+        IntStream.range(0, 10)
+                .forEach(i -> {
+                    OrderItem item = order.getItems().get(i);
+                    assertThat(item.getItem().getStockQuantity()).isEqualTo(i + 1);
+                });
     }
 
+    @Test
+    void testOrder() {
+        IntStream.rangeClosed(1, 10)
+                .forEach(i -> {
+                    String itemName = String.format("item%s", i);
+                    Item item = new Item(itemName, i, i, null);
+                    order.addItem(item, i);
+                });
+
+        order.order();
+
+        assertThat(order.getShipment().getStatus()).isEqualTo(ShipmentStatus.PENDING);
+    }
+
+    @Test
+    void testOrder_NotEnoughStockException() {
+        IntStream.rangeClosed(1, 10)
+                .forEach(i -> {
+                    String itemName = String.format("item%s", i);
+                    Item item = new Item(itemName, i, i, null);
+                    order.addItem(item, i * i);
+                });
+
+        assertThrows(
+                NotEnoughStockException.class,
+                () -> order.order()
+        );
+    }
 }

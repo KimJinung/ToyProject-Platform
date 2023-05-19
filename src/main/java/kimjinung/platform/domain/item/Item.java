@@ -1,59 +1,54 @@
 package kimjinung.platform.domain.item;
 
-
-import kimjinung.platform.domain.base.BaseEntity;
 import kimjinung.platform.exception.NotEnoughStockException;
-
 import lombok.Getter;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
-import static javax.persistence.GenerationType.AUTO;
 
 @Getter
 @Entity
-public class Item extends BaseEntity {
-
-    @Id @GeneratedValue(strategy = AUTO)
+public class Item {
+    @Id
+    @GeneratedValue(generator = "uuidGenerator")
+    @GenericGenerator(name = "uuidGenerator", strategy = "org.hibernate.id.UUIDGenerator")
     @Column(name = "item_id")
-    private Long id;
-
+    private UUID id;
     private String name;
-
     private Integer price;
-
     private Integer stockQuantity;
-
     @OneToMany(mappedBy = "item")
-    private final List<CategoryItem> categories = new ArrayList<>();
+    private List<ItemCategory> categories = new ArrayList<>();
 
-    protected Item() {
+    public Item() {
+
     }
 
-    public Item(String name, Integer price, Integer stockQuantity) {
+    public Item(String name, Integer price, Integer stockQuantity, List<ItemCategory> categories) {
         this.name = name;
         this.price = price;
         this.stockQuantity = stockQuantity;
+        this.categories = categories;
     }
 
-    public void addCategoryItem(CategoryItem categoryItem) {
-        this.categories.add(categoryItem);
+    public boolean addStock(int quantity) {
+        this.price += quantity;
+        return true;
     }
 
-    public void addStock(int quantity) {
-        this.stockQuantity += quantity;
-    }
+    public boolean reduceStock(int quantity) {
+        int restStock = this.stockQuantity - quantity;
 
-    public void reduceStock(int stockQuantity) {
-        int remainingStock = this.stockQuantity - stockQuantity;
-
-        if (remainingStock < 0) {
-            throw new NotEnoughStockException("Can't reduce to less than 0 in stock");
+        if (restStock < 0) {
+            throw new NotEnoughStockException("Not Enough Stock");
         }
 
-        this.stockQuantity = remainingStock;
+        this.stockQuantity = restStock;
+        return true;
     }
 
 }

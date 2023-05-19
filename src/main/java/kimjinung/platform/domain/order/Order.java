@@ -1,68 +1,60 @@
 package kimjinung.platform.domain.order;
 
 
-import kimjinung.platform.domain.base.BaseEntity;
-import kimjinung.platform.domain.common.Address;
+import kimjinung.platform.domain.item.Item;
 import kimjinung.platform.domain.member.Member;
 import kimjinung.platform.domain.shipment.Shipment;
+import kimjinung.platform.exception.NotEnoughStockException;
 import lombok.Getter;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
-import static javax.persistence.CascadeType.PERSIST;
+import static javax.persistence.CascadeType.*;
 import static javax.persistence.FetchType.LAZY;
 
-@Table(name = "orders")
 @Getter
+@Table(name = "orders")
 @Entity
-public class Order extends BaseEntity {
+public class Order {
 
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id
+    @GeneratedValue(generator = "uuidGenerator")
+    @GenericGenerator(name = "uuidGenerator", strategy = "org.hibernate.id.UUIDGenerator")
     @Column(name = "order_id")
-    private Long id;
+    private UUID id;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
     @OneToMany(mappedBy = "order")
-    private List<OrderItem> orderItems = new ArrayList<>();
+    private List<OrderItem> items = new ArrayList<>();
 
-    @Enumerated(EnumType.STRING)
-    private OrderStatus status;
-
-    @OneToOne(fetch = LAZY, cascade = PERSIST)
-    @JoinColumn(name = "shipment_id", unique = true)
+    @OneToOne(cascade = PERSIST)
     private Shipment shipment;
 
     public Order() {
-
     }
 
     public Order(Member member) {
         this.member = member;
-        this.status = OrderStatus.COMPLETE;
-        this.shipment = createShipment(this, member.getAddress());
     }
 
-    public Order(Member member, Address address) {
-        this.member = member;
-        this.status = OrderStatus.COMPLETE;
-        this.shipment = createShipment(this, address);
+    public void addItem(Item item, int quantity) {
+        OrderItem orderItem = new OrderItem(this, item, quantity);
+        this.items.add(orderItem);
     }
 
-    private Shipment createShipment(Order order, Address address) {
-        return new Shipment(order, address);
-    }
+    public void order() throws NotEnoughStockException {
+        items.forEach(item -> {
+            Integer quantity = item.getQuantity();
+            item.getItem().reduceStock(quantity);
+        });
 
-    public void addOrderItems(List<OrderItem> orderItems) {
-        this.orderItems = orderItems;
+        this.shipment = new Shipment(this);
     }
-
-    public void cancelOrder() {
-        this.status = OrderStatus.CANCEL;
-    }
-
 }

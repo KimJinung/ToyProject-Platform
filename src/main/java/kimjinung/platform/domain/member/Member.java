@@ -1,39 +1,34 @@
 package kimjinung.platform.domain.member;
 
-import kimjinung.platform.domain.base.BaseEntity;
-import kimjinung.platform.domain.common.Address;
 import kimjinung.platform.domain.order.Order;
 import lombok.Getter;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Getter
 @Entity
-public class Member extends BaseEntity {
+public class Member {
 
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id
+    @GeneratedValue(generator = "uuidGenerator")
+    @GenericGenerator(name = "uuidGenerator", strategy = "org.hibernate.id.UUIDGenerator")
     @Column(name = "member_id")
-    private Long id;
-
+    private UUID id;
     private String name;
-
     private String password;
 
-    @Embedded
-    private Address address;
-
-    @OneToMany(mappedBy = "member")
-    private final List<Order> orderHistory = new ArrayList<>();
+    @OneToMany(mappedBy = "order_id")
+    private List<Order> orders = new ArrayList<>();
 
     public Member() {
-
     }
 
-    public Member(String name, String password, Address address) {
+    public Member(String name, String password) {
         this.name = name;
         this.password = password;
-        this.address = address;
     }
 }
