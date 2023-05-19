@@ -1,33 +1,33 @@
 package kimjinung.platform.domain.order;
 
-
-import kimjinung.platform.domain.base.BaseEntity;
 import kimjinung.platform.domain.item.Item;
 import lombok.Getter;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.UUID;
 
-import static javax.persistence.FetchType.*;
+import static javax.persistence.FetchType.LAZY;
 
 @Getter
 @Entity
-public class OrderItem extends BaseEntity {
+public class OrderItem {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue(generator = "uuidGenerator")
+    @GenericGenerator(name = "uuidGenerator", strategy = "org.hibernate.id.UUIDGenerator")
     @Column(name = "order_item_id")
-    private Long id;
-
-    @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "item_id")
-    private Item item;
+    private UUID id;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "order_id")
     private Order order;
 
-    private Integer quantity;
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "item_id")
+    private Item item;
 
-    private Integer orderPrice;
+    private Integer quantity;
 
     public OrderItem() {
     }
@@ -36,7 +36,5 @@ public class OrderItem extends BaseEntity {
         this.order = order;
         this.item = item;
         this.quantity = quantity;
-        this.orderPrice = item.getPrice() * quantity;
     }
-    
 }
