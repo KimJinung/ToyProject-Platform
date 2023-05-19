@@ -5,8 +5,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,18 +16,9 @@ public class CategoryRepositoryImpl implements CategoryRepository{
     private final EntityManager em;
 
     @Override
-    public boolean save(Category category) {
-        String name = category.getName();
-        Category isAlreadyExist = findByName(name).orElse(null);
-
-        if (isAlreadyExist != null) {
-            return false;
-        } else {
-            System.out.println("isAlreadyExist = " + isAlreadyExist);
-            em.persist(category);
-            return true;
-        }
-
+    public void save(Category category) {
+        em.persist(category);
+        em.flush();
     }
 
     @Override
@@ -50,14 +39,14 @@ public class CategoryRepositoryImpl implements CategoryRepository{
 
     @Override
     public Optional<Category> findByName(String name) {
-        TypedQuery<Category> query = em.
+        List<Category> result = em.
                 createQuery("select c from Category c where c.name = :name", Category.class)
-                .setParameter("name", name);
+                .setParameter("name", name)
+                .getResultList();
 
-        try {
-            Category category = query.getSingleResult();
-            return Optional.of(category);
-        } catch (NoResultException e) {
+        if (!result.isEmpty()) {
+            return Optional.of(result.get(0));
+        } else {
             return Optional.empty();
         }
     }
