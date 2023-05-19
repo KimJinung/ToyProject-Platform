@@ -1,13 +1,10 @@
 package kimjinung.platform.domain.item;
 
 import kimjinung.platform.exception.NotEnoughStockException;
-import org.aspectj.lang.annotation.Before;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 
 class ItemTest {

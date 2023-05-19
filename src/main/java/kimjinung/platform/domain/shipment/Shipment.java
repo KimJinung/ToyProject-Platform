@@ -8,6 +8,7 @@ import javax.persistence.*;
 import java.util.UUID;
 
 import static javax.persistence.CascadeType.PERSIST;
+import static javax.persistence.FetchType.LAZY;
 
 @Getter
 @Entity
@@ -19,7 +20,7 @@ public class Shipment {
     @Column(name = "shipment_id")
     private UUID id;
 
-    @OneToOne(cascade = PERSIST)
+    @OneToOne(fetch = LAZY, cascade = PERSIST)
     private Order order;
     private ShipmentStatus status;
 

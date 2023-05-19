@@ -8,6 +8,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 
 @Getter
@@ -28,11 +29,13 @@ public class Item {
 
     }
 
-    public Item(String name, Integer price, Integer stockQuantity, List<ItemCategory> categories) {
+    public Item(String name, Integer price, Integer stockQuantity, List<Category> categories) {
         this.name = name;
         this.price = price;
         this.stockQuantity = stockQuantity;
-        this.categories = categories;
+        this.categories = categories.stream()
+                .map(category -> new ItemCategory(this, category))
+                .collect(Collectors.toList());
     }
 
     public boolean addStock(int quantity) {

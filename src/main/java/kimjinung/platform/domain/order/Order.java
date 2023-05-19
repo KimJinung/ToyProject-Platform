@@ -32,9 +32,9 @@ public class Order {
     private Member member;
 
     @OneToMany(mappedBy = "order")
-    private List<OrderItem> items = new ArrayList<>();
+    private final List<OrderItem> items = new ArrayList<>();
 
-    @OneToOne(cascade = PERSIST)
+    @OneToOne(fetch = LAZY, cascade = PERSIST)
     private Shipment shipment;
 
     public Order() {
