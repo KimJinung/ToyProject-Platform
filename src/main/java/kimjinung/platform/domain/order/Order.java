@@ -45,6 +45,7 @@ public class Order {
         this.member = member;
     }
 
+    // TODO: Refactoring
     public void addItem(Item item, int quantity) {
         OrderItem orderItem = new OrderItem(this, item, quantity);
         this.items.add(orderItem);
