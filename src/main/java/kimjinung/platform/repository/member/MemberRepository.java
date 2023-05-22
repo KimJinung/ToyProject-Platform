@@ -8,7 +8,8 @@ import java.util.UUID;
 
 public interface MemberRepository {
 
-    boolean save(Member member);
+    void save(Member member);
     Optional<Member> findById(UUID id);
     Optional<List<Member>> findByName(String name);
+
 }
