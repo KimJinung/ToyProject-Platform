@@ -6,7 +6,7 @@ import kimjinung.platform.domain.shipment.Shipment;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface shipmentRepository {
+public interface ShipmentRepository {
     Optional<Shipment> findById(UUID uuid);
     Optional<Shipment> findByOrder(Order order);
 }
