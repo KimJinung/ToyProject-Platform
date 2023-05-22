@@ -33,9 +33,8 @@ public class Item {
         this.name = name;
         this.price = price;
         this.stockQuantity = stockQuantity;
-        this.categories = categories.stream()
-                .map(category -> new ItemCategory(this, category))
-                .collect(Collectors.toList());
+        categories.forEach(
+                category -> this.categories.add(new ItemCategory(this, category)));
     }
 
     public boolean addStock(int quantity) {

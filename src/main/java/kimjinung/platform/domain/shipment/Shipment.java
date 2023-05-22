@@ -1,5 +1,6 @@
 package kimjinung.platform.domain.shipment;
 
+import kimjinung.platform.domain.member.Address;
 import kimjinung.platform.domain.order.Order;
 import lombok.Getter;
 import org.hibernate.annotations.GenericGenerator;
@@ -22,13 +23,15 @@ public class Shipment {
 
     @OneToOne(fetch = LAZY, cascade = PERSIST)
     private Order order;
+    private Address address;
     private ShipmentStatus status;
 
     public Shipment() {
     }
 
-    public Shipment(Order order) {
+    public Shipment(Order order, Address address) {
         this.order = order;
+        this.address = address;
         this.status = ShipmentStatus.PENDING;
     }
 }

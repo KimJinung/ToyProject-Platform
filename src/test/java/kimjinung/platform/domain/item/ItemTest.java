@@ -4,15 +4,20 @@ import kimjinung.platform.exception.NotEnoughStockException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.*;
 
 
 class ItemTest {
     Item item;
+    List<Category> categories;
 
     @BeforeEach
     void beforeEach() {
-        item = new Item("item", 1000, 10, null);
+        categories = new ArrayList<>();
+        item = new Item("item", 1000, 10, categories);
     }
 
     @Test

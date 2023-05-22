@@ -2,6 +2,7 @@ package kimjinung.platform.domain.order;
 
 
 import kimjinung.platform.domain.item.Item;
+import kimjinung.platform.domain.member.Address;
 import kimjinung.platform.domain.member.Member;
 import kimjinung.platform.domain.shipment.Shipment;
 import kimjinung.platform.exception.NotEnoughStockException;
@@ -49,13 +50,13 @@ public class Order {
         this.items.add(orderItem);
     }
 
-    public void order() throws NotEnoughStockException {
-        items.forEach(item -> {
-            Integer quantity = item.getQuantity();
-            item.getItem().reduceStock(quantity);
+    public void order(Address address) throws NotEnoughStockException {
+        items.forEach(orderItem -> {
+            Integer quantity = orderItem.getQuantity();
+            orderItem.getItem().reduceStock(quantity);
         });
 
-        this.shipment = new Shipment(this);
+        this.shipment = new Shipment(this, address);
     }
 
 }
