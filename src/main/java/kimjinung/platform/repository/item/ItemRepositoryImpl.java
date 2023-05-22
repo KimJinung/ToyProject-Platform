@@ -17,16 +17,22 @@ public class ItemRepositoryImpl implements ItemRepository{
 
     @Override
     public UUID save(Item item) {
-        return UUID.randomUUID();
+        em.persist(item);
+        return item.getId();
     }
 
     @Override
     public Optional<Item> findById(UUID id) {
-        return Optional.empty();
+        Item item = em.find(Item.class, id);
+        return Optional.ofNullable(item);
     }
 
     @Override
     public Optional<List<Item>> findByName(String name) {
-        return Optional.empty();
+        List<Item> items = em.createQuery("select i from Item i where name = :name", Item.class)
+                .setParameter("name", name)
+                .getResultList();
+
+        return Optional.ofNullable(items);
     }
 }
