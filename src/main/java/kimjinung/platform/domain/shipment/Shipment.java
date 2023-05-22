@@ -9,6 +9,7 @@ import javax.persistence.*;
 import java.util.UUID;
 
 import static javax.persistence.CascadeType.PERSIST;
+import static javax.persistence.EnumType.STRING;
 import static javax.persistence.FetchType.LAZY;
 
 @Getter
@@ -18,12 +19,14 @@ public class Shipment {
     @Id
     @GeneratedValue(generator = "uuidGenerator")
     @GenericGenerator(name = "uuidGenerator", strategy = "org.hibernate.id.UUIDGenerator")
-    @Column(name = "shipment_id")
+    @Column(name = "shipment_id", columnDefinition = "BINARY(16)")
     private UUID id;
 
-    @OneToOne(fetch = LAZY, cascade = PERSIST)
+    @OneToOne(mappedBy = "shipment")
     private Order order;
     private Address address;
+
+    @Enumerated(STRING)
     private ShipmentStatus status;
 
     public Shipment() {
@@ -33,5 +36,13 @@ public class Shipment {
         this.order = order;
         this.address = address;
         this.status = ShipmentStatus.PENDING;
+    }
+
+    public void shipStart() {
+        this.status = ShipmentStatus.SHIPPED;
+    }
+
+    public void shipComplete() {
+        this.status = ShipmentStatus.COMPLETE;
     }
 }

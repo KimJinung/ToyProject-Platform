@@ -16,7 +16,7 @@ public class OrderItem {
     @Id
     @GeneratedValue(generator = "uuidGenerator")
     @GenericGenerator(name = "uuidGenerator", strategy = "org.hibernate.id.UUIDGenerator")
-    @Column(name = "order_item_id")
+    @Column(name = "order_item_id", columnDefinition = "BINARY(16)")
     private UUID id;
 
     @ManyToOne(fetch = LAZY)

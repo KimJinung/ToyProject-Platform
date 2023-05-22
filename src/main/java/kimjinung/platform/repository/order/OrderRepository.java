@@ -8,7 +8,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface OrderRepository {
-    boolean save(Order order);
+    UUID save(Order order);
     Optional<Order> findById(UUID id);
     Optional<List<Order>> findByMember(Member member);
 

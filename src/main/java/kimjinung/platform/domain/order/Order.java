@@ -25,7 +25,7 @@ public class Order {
     @Id
     @GeneratedValue(generator = "uuidGenerator")
     @GenericGenerator(name = "uuidGenerator", strategy = "org.hibernate.id.UUIDGenerator")
-    @Column(name = "order_id")
+    @Column(name = "order_id", columnDefinition = "BINARY(16)")
     private UUID id;
 
     @ManyToOne(fetch = LAZY)
@@ -36,13 +36,15 @@ public class Order {
     private final List<OrderItem> items = new ArrayList<>();
 
     @OneToOne(fetch = LAZY, cascade = PERSIST)
+    @JoinColumn(name = "shipment_id")
     private Shipment shipment;
 
     public Order() {
     }
 
-    public Order(Member member) {
+    public Order(Member member, Address address) {
         this.member = member;
+        this.shipment = new Shipment(this, address);
     }
 
     // TODO: Refactoring
@@ -51,13 +53,11 @@ public class Order {
         this.items.add(orderItem);
     }
 
-    public void order(Address address) throws NotEnoughStockException {
+    public void order() throws NotEnoughStockException {
         items.forEach(orderItem -> {
             Integer quantity = orderItem.getQuantity();
             orderItem.getItem().reduceStock(quantity);
         });
-
-        this.shipment = new Shipment(this, address);
     }
 
 }

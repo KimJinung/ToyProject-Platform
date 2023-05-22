@@ -16,7 +16,7 @@ public class Member {
     @Id
     @GeneratedValue(generator = "uuidGenerator")
     @GenericGenerator(name = "uuidGenerator", strategy = "org.hibernate.id.UUIDGenerator")
-    @Column(name = "member_id")
+    @Column(name = "member_id", columnDefinition = "BINARY(16)")
     private UUID id;
     private String name;
     private String password;

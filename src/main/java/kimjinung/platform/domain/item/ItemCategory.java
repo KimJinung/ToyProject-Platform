@@ -14,7 +14,7 @@ public class ItemCategory {
     @Id
     @GeneratedValue(generator = "uuidGenerator")
     @GenericGenerator(name = "uuidGenerator", strategy = "org.hibernate.id.UUIDGenerator")
-    @Column(name = "item_category_id")
+    @Column(name = "item_category_id", columnDefinition = "BINARY(16)")
     private UUID id;
 
     @ManyToOne(fetch = LAZY)

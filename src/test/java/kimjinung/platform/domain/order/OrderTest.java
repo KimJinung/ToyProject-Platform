@@ -28,8 +28,8 @@ class OrderTest {
 
     void beforeEach() {
         member = new Member("Jinung Kim", "0410");
-        order = new Order(member);
         address = new Address("KY", "SW", "95");
+        order = new Order(member, address);
         categories = new ArrayList<>();
     }
 
@@ -61,7 +61,7 @@ class OrderTest {
                     order.addItem(item, i);
                 });
 
-        order.order(address);
+        order.order();
 
         assertThat(order.getShipment().getStatus()).isEqualTo(ShipmentStatus.PENDING);
     }
@@ -77,7 +77,7 @@ class OrderTest {
 
         assertThrows(
                 NotEnoughStockException.class,
-                () -> order.order(address)
+                () -> order.order()
         );
     }
 }

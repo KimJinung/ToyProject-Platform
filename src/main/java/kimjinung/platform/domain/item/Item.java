@@ -17,7 +17,7 @@ public class Item {
     @Id
     @GeneratedValue(generator = "uuidGenerator")
     @GenericGenerator(name = "uuidGenerator", strategy = "org.hibernate.id.UUIDGenerator")
-    @Column(name = "item_id")
+    @Column(name = "item_id", columnDefinition = "BINARY(16)")
     private UUID id;
     private String name;
     private Integer price;
